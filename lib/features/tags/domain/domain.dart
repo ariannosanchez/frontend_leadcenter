@@ -1,0 +1,1 @@
+export 'package:lead_center/features/tags/domain/entities/tag.dart';

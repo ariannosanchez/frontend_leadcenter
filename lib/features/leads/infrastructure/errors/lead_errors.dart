@@ -1,0 +1,6 @@
+
+
+
+class LeadNotFound implements Exception {
+  
+}

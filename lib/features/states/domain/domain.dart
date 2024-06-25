@@ -1,0 +1,1 @@
+export 'package:lead_center/features/states/domain/entities/state.dart';

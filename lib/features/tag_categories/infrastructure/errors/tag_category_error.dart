@@ -1,0 +1,3 @@
+class TagCategoryNotFound implements Exception {
+  
+}
