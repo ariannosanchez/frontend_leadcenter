@@ -12,7 +12,7 @@ class TagCategoriesRepositoryImpl extends TagCategoriesRepository {
   }
 
   @override
-  Future<TagCategory> getTagCategoryById(String id) {
+  Future<TagCategory> getTagCategoryById(int id) {
     return datasource.getTagCategoryById(id);
   }
 

@@ -51,7 +51,6 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
   }
 }
 
-
 class LeadsState {
   final bool isLastPage;
   final int limit;

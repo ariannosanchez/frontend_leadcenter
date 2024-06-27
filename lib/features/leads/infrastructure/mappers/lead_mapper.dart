@@ -2,7 +2,7 @@
 
 import 'package:lead_center/features/auth/infraestructure/infraestructure.dart';
 import 'package:lead_center/features/leads/domain/domain.dart';
-import 'package:lead_center/features/states/infrastructure/infrastructure.dart';
+import 'package:lead_center/features/stages/infrastructure/infrastructure.dart';
 import 'package:lead_center/features/tags/infrastructure/infrastructure.dart';
 
 class LeadMapper {
@@ -15,7 +15,7 @@ class LeadMapper {
     phone: json['phone'],
     slug: json['slug'],
     tag: TagMapper.tagJsonToEntity( json['tag'] ),
-    state: StateMapper.stateJsonToEntity( json['state'] ),
+    stage: StageMapper.stageJsonToEntity( json['stage'] ),
     user: UserMapper.userJsonToEntity( json['user'] ),
   );
 }

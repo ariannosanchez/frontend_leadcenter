@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lead_center/features/shared/shared.dart';
 import 'package:lead_center/features/tag_categories/presentation/providers/providers.dart';
+import 'package:lead_center/features/tag_categories/presentation/widgets/widgets.dart';
 
 class TagCategoriesScreen extends StatelessWidget {
   const TagCategoriesScreen({super.key});
@@ -56,15 +58,35 @@ class _TagCategoriesViewState extends ConsumerState {
 
     return ListView.builder(
       controller: scrollController,
-      padding: const EdgeInsets.all(20),
       itemCount: tagCategoriesState.tagCategories.length,
       itemBuilder: (context, index) {
         final tagCategory = tagCategoriesState.tagCategories[index];
-        return Text( tagCategory.name );
+        return GestureDetector(
+          onTap: () => context.push('/tag_category/${ tagCategory.id }'),
+          child: TagCategoryCard(tagCategory: tagCategory),
+        );
       }
     );
 
-  }
-
-  
+  } 
 }
+
+// class _CustomListTile extends StatelessWidget {
+//   const _CustomListTile({
+//     required this.tagCategory,
+//   });
+
+//   final TagCategory tagCategory;
+
+//   @override
+//   Widget build(BuildContext context) {
+
+//     final colors = Theme.of(context).colorScheme;
+
+//     return ListTile(
+//       leading: Icon( Icons.tag, color: colors.primary ),
+//       trailing: Icon( Icons.arrow_forward_ios_rounded, color: colors.primary ),
+//       title: Text(tagCategory.name),
+//     );
+//   }
+// }

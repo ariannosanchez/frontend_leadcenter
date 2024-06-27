@@ -81,7 +81,7 @@ class LeadsCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       color: Colors.grey.shade200
                     ),
-                    child: Text(lead.state.stateCategory.name, style: const TextStyle(color: Colors.black)),
+                    child: Text(lead.stage.stageCategory.name, style: const TextStyle(color: Colors.black)),
                   )
                 ],
               ),

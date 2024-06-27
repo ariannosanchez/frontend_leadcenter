@@ -4,8 +4,9 @@ import 'package:lead_center/config/router/app_router_notifier.dart';
 import 'package:lead_center/features/auth/auth.dart';
 import 'package:lead_center/features/auth/presentation/providers/auth_provider.dart';
 import 'package:lead_center/features/leads/leads.dart';
-import 'package:lead_center/features/state_categories/state_categories.dart';
-import 'package:lead_center/features/tag_categories/presentation/screens/tag_categories_screen.dart';
+import 'package:lead_center/features/stage_categories/presentation/screens/screens.dart';
+import 'package:lead_center/features/stages/presentation/screens/screens.dart';
+import 'package:lead_center/features/tag_categories/presentation/screens/screens.dart';
 
 final goRouterProvider = Provider((ref) {
 
@@ -45,14 +46,26 @@ final goRouterProvider = Provider((ref) {
 
       ///* StateCategory
       GoRoute(
-        path: '/state_categories',
-        builder: (context, state) => const StateCategoriesScreen(),
+        path: '/stage_categories',
+        builder: (context, state) => const StageCategoriesScreen(),
       ),
       
       ///* TagCategory
       GoRoute(
         path: '/tag_categories',
         builder: (context, state) => const TagCategoriesScreen(),
+      ),
+      GoRoute(
+        path: '/tag_category/:id',
+        builder: (context, state) => TagCategoryScreen(
+          tagCategoryId: state.params['id'] ?? 'no-id',
+        ),
+      ),
+      
+      ///* State
+      GoRoute(
+        path: '/stages',
+        builder: (context, state) => const StagesScreen(),
       ),
     ],
 

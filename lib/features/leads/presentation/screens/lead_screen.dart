@@ -7,7 +7,7 @@ import 'package:lead_center/features/shared/shared.dart';
 class LeadScreen extends ConsumerWidget {
   final String leadId;
 
-  const LeadScreen({super.key, required this.leadId});
+  const LeadScreen({ super.key, required this.leadId });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,7 +18,9 @@ class LeadScreen extends ConsumerWidget {
         title: const Text('Editar Lead'),
         actions: [
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.delete_outline_rounded))
+            onPressed: () {},
+            icon: const Icon(Icons.delete_outline_rounded)
+          )
         ],
       ),
       body: leadState.isLoading
@@ -65,7 +67,7 @@ class _LeadInformation extends ConsumerWidget {
           CustomLeadField(
             isTopField: true,
             label: 'Elige un estado',
-            initialValue: lead.state.name,
+            initialValue: lead.stage.name,
           ),
           CustomLeadField(
             isTopField: true,

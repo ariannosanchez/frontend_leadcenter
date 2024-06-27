@@ -1,5 +1,5 @@
 import 'package:lead_center/features/auth/domain/domain.dart';
-import 'package:lead_center/features/states/domain/domain.dart';
+import 'package:lead_center/features/stages/domain/domain.dart';
 import 'package:lead_center/features/tags/domain/domain.dart';
 
 class Lead {
@@ -10,7 +10,7 @@ class Lead {
   String phone;
   String slug;
   Tag tag;
-  State state;
+  Stage stage;
   User user;
 
   Lead({
@@ -21,7 +21,7 @@ class Lead {
     required this.phone,
     required this.slug,
     required this.tag,
-    required this.state,
+    required this.stage,
     required this.user,
   });
 

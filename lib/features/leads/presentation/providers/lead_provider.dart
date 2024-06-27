@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lead_center/features/leads/domain/domain.dart';
-import 'leads_repository_provider.dart';
+import 'package:lead_center/features/leads/presentation/providers/providers.dart';
 
 
 final leadProvider = StateNotifierProvider.autoDispose.family<LeadNotifier, LeadState, String>(
@@ -69,6 +69,5 @@ class LeadState {
     isLoading: isLoading ?? this.isLoading,
     isSaving: isSaving ?? this.isSaving,
   );
-
 
 }

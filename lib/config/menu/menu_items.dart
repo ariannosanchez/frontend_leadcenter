@@ -33,7 +33,7 @@ const appMenuItems = <MenuItem>[
   MenuItem(
     title: 'Estados', 
     subTitle: 'Listado de estados', 
-    link: '/state_categories', 
+    link: '/stages', 
     icon: Icons.view_timeline_outlined
   ),
 
@@ -47,7 +47,7 @@ const appMenuItems = <MenuItem>[
   MenuItem(
     title: 'Categoria de estados', 
     subTitle: 'Listado de estados', 
-    link: '/state_categories', 
+    link: '/stage_categories', 
     icon: Icons.settings
   ),
 

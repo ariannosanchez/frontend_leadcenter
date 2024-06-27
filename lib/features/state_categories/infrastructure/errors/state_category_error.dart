@@ -1,3 +1,0 @@
-class StateCategoryNotFound implements Exception {
-  
-}
