@@ -20,9 +20,31 @@ class TagCategoriesDatasourceImpl extends TagCategoriesDatasource {
   );
 
   @override
-  Future<TagCategory> createUpdateTagCategory(Map<String, dynamic> tagCategoryLike) {
-    // TODO: implement createUpdateTagCategory
-    throw UnimplementedError();
+  Future<TagCategory> createUpdateTagCategory(Map<String, dynamic> tagCategoryLike) async {
+    
+    try {
+
+      final int? tagCategoryId = tagCategoryLike['id'];
+      final String method = (tagCategoryId == null) ? 'POST' : 'PATCH';
+      final String url = (tagCategoryId == null) ? '/tag-categories' : '/tag-categories/$tagCategoryId';
+      
+      tagCategoryLike.remove('id');
+      
+      final response = await dio.request(
+        url,
+        data: tagCategoryLike,
+        options: Options(
+          method: method,
+        )
+      );
+
+      final tagCategory = TagCategoryMapper.tagCategoryJsonToEntity(response.data);
+      return tagCategory;
+
+    } catch (e) {
+      throw Exception();
+    }
+
   }
 
   @override

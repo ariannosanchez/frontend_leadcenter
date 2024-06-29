@@ -43,7 +43,7 @@ class AppTheme {
       centerTitle: true,
       color: scaffoldBackgroundColor,
       titleTextStyle: GoogleFonts.nunito()
-        .copyWith( fontSize: 25, fontWeight: FontWeight.w400, color: Colors.black ),
+        .copyWith( fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black ),
     )
   );
 

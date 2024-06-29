@@ -26,7 +26,7 @@ const appMenuItems = <MenuItem>[
   MenuItem(
     title: 'Etiquetas', 
     subTitle: 'Listado de categorias', 
-    link: '/', 
+    link: '/tags', 
     icon: Icons.local_offer_outlined
   ),
 

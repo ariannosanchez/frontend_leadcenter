@@ -7,6 +7,7 @@ import 'package:lead_center/features/leads/leads.dart';
 import 'package:lead_center/features/stage_categories/presentation/screens/screens.dart';
 import 'package:lead_center/features/stages/presentation/screens/screens.dart';
 import 'package:lead_center/features/tag_categories/presentation/screens/screens.dart';
+import 'package:lead_center/features/tags/presentation/screens/screens.dart';
 
 final goRouterProvider = Provider((ref) {
 
@@ -58,10 +59,23 @@ final goRouterProvider = Provider((ref) {
       GoRoute(
         path: '/tag_category/:id',
         builder: (context, state) => TagCategoryScreen(
-          tagCategoryId: state.params['id'] ?? 'no-id',
+          tagCategoryId: int.parse(state.params['id'] ?? '0'),
         ),
       ),
+
+      ///* Tag
+      GoRoute(
+        path: '/tags',
+        builder: (context, state) => const TagsScreen(),
+      ),
       
+      GoRoute(
+        path: '/tags/:id',
+        builder: (context, state) => TagScreen(
+          tagId: int.parse(state.params['id'] ?? '0'),
+        ),
+      ),
+
       ///* State
       GoRoute(
         path: '/stages',

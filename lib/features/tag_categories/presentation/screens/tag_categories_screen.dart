@@ -21,7 +21,9 @@ class TagCategoriesScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text('Nueva categoria'),
         icon: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          context.push('/tag_category/0');
+        },
       ),
     );
   }

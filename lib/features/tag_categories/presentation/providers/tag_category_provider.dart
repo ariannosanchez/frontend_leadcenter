@@ -21,11 +21,27 @@ class TagCategoryNotifier extends StateNotifier<TagCategoryState> {
     required this.tagCategoriesRepository,
     required int tagCategoryId,
   }): super(TagCategoryState(id: tagCategoryId)) {
+    loadTagCategory();
+  }
 
+  TagCategory newEmptyTagCategory() {
+    return TagCategory(
+      id: 0,
+      name: '',
+    );
   }
 
   Future<void> loadTagCategory() async {
     try {
+
+      if ( state.id == 0 ){
+        state = state.copyWith(
+          isLoading: false,
+          tagCategory: newEmptyTagCategory(),
+        );
+        return;
+      }
+
       final tagCategory = await tagCategoriesRepository.getTagCategoryById(state.id);
 
       state = state.copyWith(

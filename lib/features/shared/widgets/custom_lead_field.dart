@@ -70,7 +70,7 @@ class CustomLeadField extends StatelessWidget {
         obscureText: obscureText,
         keyboardType: keyboardType,
         style: const TextStyle( fontSize: 15, color: Colors.black54 ),
-        maxLines: maxLines,
+        maxLines: maxLines, 
         initialValue: initialValue,
         decoration: InputDecoration(
           floatingLabelBehavior: maxLines > 1 ? FloatingLabelBehavior.always : FloatingLabelBehavior.auto,

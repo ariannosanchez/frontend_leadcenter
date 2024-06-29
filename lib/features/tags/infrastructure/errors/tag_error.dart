@@ -1,0 +1,3 @@
+class TagNotFound implements Exception {
+  
+}

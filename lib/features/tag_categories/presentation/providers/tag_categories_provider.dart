@@ -21,6 +21,33 @@ class TagCategoriesNotifier extends StateNotifier<TagCategoriesState> {
     loadNextPage();
   }
 
+  Future<bool> createOrUpdateTagCategory( Map<String, dynamic> tagCategoryLike ) async {
+    
+    try {
+      final tagCategory = await tagCategoriesRepository.createUpdateTagCategory(tagCategoryLike); 
+      final isTagCategoryInList = state.tagCategories.any((element) => element.id == tagCategory.id );
+      
+      if ( !isTagCategoryInList ){
+        state = state.copyWith(
+          tagCategories: [...state.tagCategories, tagCategory]
+        );
+        return true;
+      }
+
+      state = state.copyWith(
+        tagCategories: state.tagCategories.map(
+          (element) => ( element.id == tagCategory.id ) ? tagCategory : element, 
+        ).toList()
+      );
+      
+      return true;
+
+    } catch (e) {
+      return false;
+    }
+
+  }
+
   Future loadNextPage() async {
     
     if ( state.isLoading || state.isLastPage ) return;
