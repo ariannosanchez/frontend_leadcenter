@@ -39,9 +39,8 @@ class LeadsCard extends StatelessWidget {
                     SizedBox(
                       width: 60,
                       height: 60,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset('assets/images/no-image.jpg'),
+                      child: CircleAvatar(
+                        child: Text(lead.name[0], style: const TextStyle(color: Colors.black45, fontSize: 18)),
                       ),
                     ),
                     const SizedBox(width: 10),

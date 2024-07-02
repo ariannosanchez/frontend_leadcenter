@@ -22,6 +22,33 @@ class TagsNotifier extends StateNotifier<TagsState> {
   }) : super( TagsState() ) {
     loadNextPage();
   }
+
+  Future<bool> createOrUpdateTag( Map<String, dynamic> tagLike ) async {
+    
+    try {
+      final tag = await tagsRepository.createUpdateTag(tagLike);
+      final isTagInList = state.tags.any((element) => element.id == tag.id );
+
+      if( !isTagInList ) {
+        state = state.copyWith(
+          tags: [...state.tags, tag]
+        );
+        return true;
+      }
+
+      state = state.copyWith(
+        tags: state.tags.map(
+          (element) => ( element.id == tag.id ) ? tag : element,
+        ).toList()
+      );
+      
+      return true;
+
+    } catch (e) {
+      return false;
+    }
+
+  }
   
   Future loadNextPage() async {
 

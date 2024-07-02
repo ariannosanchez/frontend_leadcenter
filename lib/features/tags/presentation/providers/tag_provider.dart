@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lead_center/features/tag_categories/domain/domain.dart';
 import 'package:lead_center/features/tags/domain/domain.dart';
 import 'package:lead_center/features/tags/presentation/providers/providers.dart';
 
@@ -24,9 +25,25 @@ class TagNotifier extends StateNotifier<TagState> {
     loadTag();
   }
 
+  Tag newEmptyTag() {
+    return Tag(
+      id: 0,
+      name: '',
+      tagCategory: TagCategory(id: 0, name: ''),
+    );
+  }
 
   Future<void> loadTag() async {
     try {
+
+      if (state.id == 0) {
+        state = state.copyWith(
+          isLoading: false,
+          tag: newEmptyTag(),
+        );
+        return;
+      }
+
       final tag = await tagsRepository.getTagById(state.id);
 
       state = state.copyWith(
