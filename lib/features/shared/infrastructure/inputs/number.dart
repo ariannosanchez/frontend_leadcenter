@@ -30,10 +30,10 @@ class Number extends FormzInput<int, NumberError> {
     
     if ( value.toString().isEmpty || value.toString().trim().isEmpty ) return NumberError.empty;
     
-    final isInteger = int.tryParse( value.toString()) ?? -1;
-    if ( isInteger == -1 ) return NumberError.format;
+    final isInteger = int.tryParse( value.toString()) ?? 0;
+    if ( isInteger == 0 ) return NumberError.format;
 
-    if ( value < 0 ) return NumberError.value;
+    if ( value <= 0 ) return NumberError.value;
 
     return null;
   }

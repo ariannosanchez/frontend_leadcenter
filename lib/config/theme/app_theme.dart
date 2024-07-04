@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 const colorSeed = Color(0xff424CB8);
 const scaffoldBackgroundColor = Color(0xFFF8F7F7);
-const mainColor = Color(0xFF091257);
+const mainColor = Color(0xFF042449);
 const secondColor = Color(0xFF0ECE20);
 
 class AppTheme {
@@ -41,9 +41,10 @@ class AppTheme {
     ///* AppBar
     appBarTheme: AppBarTheme(
       centerTitle: true,
-      color: scaffoldBackgroundColor,
+      iconTheme: const IconThemeData( color: Colors.white ),
+      color: mainColor,
       titleTextStyle: GoogleFonts.nunito()
-        .copyWith( fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black ),
+        .copyWith( fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white ),
     )
   );
 

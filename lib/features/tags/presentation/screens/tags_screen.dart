@@ -21,7 +21,9 @@ class TagsScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text('Nueva etiqueta'),
         icon: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          context.push('/tags/0');
+        },
       ),
     );
   }

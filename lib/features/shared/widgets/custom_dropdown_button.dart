@@ -4,7 +4,7 @@ class CustomDropdownButtonField<T> extends StatelessWidget {
   final String? label;
   final String? hint;
   final String? errorMessage;
-  final List<DropdownMenuItem<T>> items;
+  final List<DropdownMenuItem<T>>? items;
   final T? value;
   final Function(T?)? onChanged;
   final Function(T?)? onSaved;
@@ -26,24 +26,18 @@ class CustomDropdownButtonField<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
-    final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(40),
-    );
-
     return DropdownButtonFormField<T>(
-      value: value,
+      value: items != null && items!.any((item) => item.value == value) ? value : null,
       items: items,
       onChanged: onChanged,
       onSaved: onSaved,
+      style: const TextStyle( fontSize: 15, color: Colors.black54 ),
       validator: validator,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         floatingLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-        enabledBorder: border,
-        focusedBorder: border.copyWith(borderSide: BorderSide(color: colors.primary)),
-        errorBorder: border.copyWith(borderSide: const BorderSide(color: Colors.red)),
-        focusedErrorBorder: border.copyWith(borderSide: const BorderSide(color: Colors.red)),
         isDense: true,
+        filled: true,
         label: label != null ? Text(label!) : null,
         hintText: hint,
         errorText: errorMessage,

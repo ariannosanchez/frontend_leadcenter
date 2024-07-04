@@ -36,7 +36,7 @@ class TagNotifier extends StateNotifier<TagState> {
   Future<void> loadTag() async {
     try {
 
-      if (state.id == 0) {
+      if ( state.id == 0 ) {
         state = state.copyWith(
           isLoading: false,
           tag: newEmptyTag(),

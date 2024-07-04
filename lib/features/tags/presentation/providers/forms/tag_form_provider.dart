@@ -1,113 +1,116 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:formz/formz.dart';
+import 'package:lead_center/features/shared/infrastructure/inputs/inputs.dart';
+import 'package:lead_center/features/tags/domain/domain.dart';
+import 'package:lead_center/features/tags/presentation/providers/providers.dart';
 
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:formz/formz.dart';
-// import 'package:lead_center/features/shared/shared.dart';
-// import 'package:lead_center/features/tag_categories/domain/domain.dart';
-// import 'package:lead_center/features/tag_categories/infrastructure/infrastructure.dart';
-// import 'package:lead_center/features/tags/domain/domain.dart';
-// import 'package:lead_center/features/tags/presentation/providers/providers.dart';
+final tagFormProvider = StateNotifierProvider.autoDispose.family<TagFormNotifier, TagFormState, Tag>(
+  (ref, tag) {
 
+    // final createUpdateCallback = ref.watch( tagsRepositoryProvider ).createUpdateTag;
+    final createUpdateCallback = ref.watch( tagsProvider.notifier ).createOrUpdateTag;
 
-// final tagFormProvider = StateNotifierProvider.autoDispose.family<TagFormNotifier, TagFormState, Tag>(
-//   (ref, tag) {
-//     final createUpdateCallback = ref.watch( tagsProvider.notifier ).createOrUpdateTag;
-    
-//     return TagFormNotifier(
-//       tag : tag,
-//       onSubmitCallback: createUpdateCallback,
-//     );
-//   }
-// );
+    return TagFormNotifier(
+      tag: tag,
+      onSubmitCallback: createUpdateCallback,
+    );
+  }
+);
 
 
-// class TagFormNotifier extends StateNotifier<TagFormState> {
+class TagFormNotifier extends StateNotifier<TagFormState> {
 
-//   final Future<bool> Function( Map<String, dynamic> tagLike )? onSubmitCallback;
+  final Future<bool> Function( Map<String, dynamic> tagLike )? onSubmitCallback;
 
-//   TagFormNotifier({
-//     this.onSubmitCallback,
-//     required Tag tag,
-//   }): super (
-//     TagFormState(
-//       id: tag.id,
-//       name: Name.dirty(tag.name),
-//       tagCategory: Number.dirty(tag.tagCategory.id),
-//     )
-//   );
+  TagFormNotifier({
+    this.onSubmitCallback,
+    required Tag tag,
+  }): super (
+    TagFormState(
+      id: tag.id,
+      name: Name.dirty(tag.name),
+      tagCategory: Number.dirty(tag.tagCategory.id)
+    )
+  );
 
-//   void onNameChanged( String value ) {
-//     state = state.copyWith(
-//       name: Name.dirty(value),
-//       isFormValid: Formz.validate([
-//         Name.dirty(value),
-//       ])
-//     );
-//   }
+  Future<bool> onFormSubmit() async {
+    _touchedEverything();
+    if ( !state.isFormValid ) return false;
 
-//   void onTagCategoryChanged( int value ) {
-//     state = state.copyWith(
-//       tagCategory: Number.dirty(value),
-//       isFormValid: Formz.validate([
-//         Number.dirty(value),
-//       ])
-//     );
-//   }
+    if ( onSubmitCallback == null ) return false;
 
-//   Future<bool> onFormSubmit() async {
-//     _touchedEverything();
-//     if ( !state.isFormValid ) return false;
+    final tagLike = {
+      'id' : (state.id == 0) ? null : state.id,
+      'name': state.name.value,
+      'tagCategory': state.tagCategory.value
+    };
 
-//     if ( onSubmitCallback == null ) return false;
+    try {
+      return await onSubmitCallback!( tagLike ); 
 
-//     final tagLike = {
-//       'id': (state.id == 0),
-//       'name': state.name.value,
-//       'tagCategory': TagCategoryMapper.tagCategoryJsonToEntity( ),
-//     };
+    } catch (e) {
+      return false;
+    }
 
-//     try {
-//       return await onSubmitCallback!(tagLike);
-//     } catch (e) {
-//       return false;
-//     }
-//   }
+  }
+
+  void _touchedEverything() {
+    state = state.copyWith(
+      isFormValid: Formz.validate([
+        Name.dirty(state.name.value),
+      ]),
+    );
+  }
+
+  void onNameChanged( String value ) {
+    state = state.copyWith(
+      name: Name.dirty(value),
+      isFormValid: Formz.validate([
+        Name.dirty(value),
+        Number.dirty(state.tagCategory.value),
+      ])
+    );
+  }
+
+  void onTagCategoryChanged( int value ) {
+    state = state.copyWith(
+      tagCategory: Number.dirty(value),
+      isFormValid: Formz.validate([
+        Name.dirty(state.name.value),
+        Number.dirty(state.tagCategory.value),
+      ])
+    );
+  }
+
+}
 
 
-//   void _touchedEverything() {
-//     state = state.copyWith(
-//       isFormValid: Formz.validate([
-//         Name.dirty(state.name.value),
-//       ])
-//     );
-//   }
+class TagFormState {
+  
+  final bool isFormValid;
+  final int? id;
+  final Name name;
+  final Number tagCategory;
 
-// }
+  TagFormState({
+    this.isFormValid = false,
+    this.id,
+    this.name = const Name.dirty(''),
+    this.tagCategory = const Number.dirty(0)
+  });
 
-// class TagFormState {
+  TagFormState copyWith({
+    bool? isFormValid,
+    int?  id,
+    Name? name,
+    Number? tagCategory,
+  }) => TagFormState(
+    isFormValid: isFormValid ?? this.isFormValid,
+    id: id ?? this.id,
+    name: name ?? this.name,
+    tagCategory: tagCategory ?? this.tagCategory,
+  );
 
-//   final bool isFormValid;
-//   final int? id;
-//   final Name name;
-//   final TagCategory tagCategory;
 
-//   TagFormState({
-//     this.isFormValid = false, 
-//     this.id,
-//     this.name = const Name.dirty(''),
-//     required this.tagCategory
-//   });
 
-//   TagFormState copyWith({
-//     bool? isFormValid,
-//     int? id,
-//     Name? name,
-//     dynamic tagCategory
-//   }) {
-//     return TagFormState(
-//       isFormValid: isFormValid ?? this.isFormValid,
-//       id: id ?? this.id,
-//       name: name ?? this.name,
-//       tagCategory: tagCategory ?? this.tagCategory
-//     );
-//   }
-// }
+}

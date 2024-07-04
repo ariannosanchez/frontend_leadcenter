@@ -25,24 +25,24 @@ class TagsDatasourceImpl extends TagsDatasource {
   Future<Tag> createUpdateTag(Map<String, dynamic> tagLike) async {
     
     try {
-      
+
       final int? tagId = tagLike['id'];
       final String method = (tagId == null) ? 'POST' : 'PATCH';
       final String url = (tagId == null) ? '/tags' : '/tags/$tagId';
-
+      
       tagLike.remove('id');
 
       final response = await dio.request(
         url,
         data: tagLike,
         options: Options(
-          method: method,
+          method: method
         )
       );
 
       final tag = TagMapper.tagJsonToEntity(response.data);
       return tag;
-
+      
     } catch (e) {
       throw Exception();
     }

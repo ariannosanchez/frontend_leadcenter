@@ -24,12 +24,12 @@ class TagsNotifier extends StateNotifier<TagsState> {
   }
 
   Future<bool> createOrUpdateTag( Map<String, dynamic> tagLike ) async {
-    
+  
     try {
       final tag = await tagsRepository.createUpdateTag(tagLike);
       final isTagInList = state.tags.any((element) => element.id == tag.id );
 
-      if( !isTagInList ) {
+      if ( !isTagInList ) {
         state = state.copyWith(
           tags: [...state.tags, tag]
         );
@@ -41,7 +41,6 @@ class TagsNotifier extends StateNotifier<TagsState> {
           (element) => ( element.id == tag.id ) ? tag : element,
         ).toList()
       );
-      
       return true;
 
     } catch (e) {
