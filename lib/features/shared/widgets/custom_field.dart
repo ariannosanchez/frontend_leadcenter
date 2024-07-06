@@ -45,7 +45,7 @@ class CustomField extends StatelessWidget {
       initialValue: initialValue,
       decoration: InputDecoration(
         floatingLabelBehavior: maxLines > 1 ? FloatingLabelBehavior.always : FloatingLabelBehavior.auto,
-        floatingLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+        floatingLabelStyle: const TextStyle( fontWeight: FontWeight.bold, fontSize: 15),
         isDense: true,
         filled: true,
         label: label != null ? Text(label!) : null,

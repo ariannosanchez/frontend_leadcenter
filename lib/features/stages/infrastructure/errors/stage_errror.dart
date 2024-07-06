@@ -1,0 +1,3 @@
+class StageNotFound implements Exception {
+  
+}

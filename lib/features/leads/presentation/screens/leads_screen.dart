@@ -24,7 +24,9 @@
         floatingActionButton: FloatingActionButton.extended(
           label: const Text('Nuevo lead'),
           icon: const Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () {
+            context.push('/lead/new');
+          },
         ),
       );
     }

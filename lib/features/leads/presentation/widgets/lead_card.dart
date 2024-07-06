@@ -80,11 +80,11 @@ class LeadsCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       color: Colors.grey.shade200
                     ),
-                    child: Text(lead.stage.stageCategory.name, style: const TextStyle(color: Colors.black)),
+                    child: Text(lead.stage.name, style: const TextStyle(color: Colors.black)),
                   )
                 ],
               ),
-              Text(lead.user.fullName, style: TextStyle(color: Colors.grey.shade800, fontSize: 12))
+              // Text(lead.user.fullName, style: TextStyle(color: Colors.grey.shade800, fontSize: 12))
             ],
           )
         ],
@@ -92,21 +92,5 @@ class LeadsCard extends StatelessWidget {
     );
 
     
-  }
-}
-
-
-class _ImageViewer extends StatelessWidget {
-  
-  final List<String> images;
-  
-  const _ImageViewer({ required this.images });
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Image.asset('assets/images/no-image.jpg'),
-    );
   }
 }

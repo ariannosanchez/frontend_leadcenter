@@ -81,6 +81,13 @@ final goRouterProvider = Provider((ref) {
         path: '/stages',
         builder: (context, state) => const StagesScreen(),
       ),
+
+      GoRoute(
+        path: '/stages/:id',
+        builder: (context, state) => StageScreen(
+          stageId: int.parse(state.params['id'] ?? '0'),
+        ),
+      ),
     ],
 
     redirect: (context, state) {

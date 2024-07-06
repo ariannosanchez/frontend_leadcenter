@@ -12,7 +12,7 @@ class StagesRepositoryImpl extends StagesRepository {
   }
 
   @override
-  Future<Stage> getStageById(String id) {
+  Future<Stage> getStageById(int id) {
     return datasource.getStageById(id);
   }
 

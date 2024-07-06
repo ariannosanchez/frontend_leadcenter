@@ -1,7 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lead_center/features/leads/domain/domain.dart';
 import 'package:lead_center/features/leads/presentation/providers/providers.dart';
-
+import 'package:lead_center/features/stage_categories/domain/domain.dart';
+import 'package:lead_center/features/stages/domain/domain.dart';
+import 'package:lead_center/features/tag_categories/domain/domain.dart';
+import 'package:lead_center/features/tags/domain/domain.dart';
 
 final leadProvider = StateNotifierProvider.autoDispose.family<LeadNotifier, LeadState, String>(
   (ref, leadId) {
@@ -14,7 +17,6 @@ final leadProvider = StateNotifierProvider.autoDispose.family<LeadNotifier, Lead
   );
 });
 
-
 class LeadNotifier extends StateNotifier<LeadState> {
 
   final LeadsRepository leadsRepository;
@@ -26,22 +28,43 @@ class LeadNotifier extends StateNotifier<LeadState> {
     loadLead();
   }
 
+  Lead newEmptyLead() {
+    return Lead(
+      id: 'new',
+      name: '', 
+      lastName: '', 
+      email: '', 
+      phone: '', 
+      slug: '',
+      tag: Tag(id: 0, name: '', tagCategory: TagCategory(id: 0, name: '')),
+      stage: Stage(id: 0, name: '', stageCategory: StageCategory(id: 0, name: '')),
+    );
+  }
+
   Future<void> loadLead() async {
 
     try {
+
+      if ( state.id == 'new' ) {
+        state = state.copyWith(
+          isLoading: false,
+          lead: newEmptyLead(),
+        );
+        return;
+      }
+
       final lead = await leadsRepository.getLeadById(state.id);
 
       state =  state.copyWith(
         isLoading: false,
         lead: lead,
       );
+      
     } catch (e) {
       // 404 lead not found
       print(e);
     }
-
   }
-
 }
 
 class LeadState {
@@ -52,7 +75,7 @@ class LeadState {
   final bool isSaving;
 
   LeadState({
-    required this.id, 
+    required this.id,
     this.lead, 
     this.isLoading = true, 
     this.isSaving = false,
@@ -69,5 +92,4 @@ class LeadState {
     isLoading: isLoading ?? this.isLoading,
     isSaving: isSaving ?? this.isSaving,
   );
-
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lead_center/features/shared/shared.dart';
 import 'package:lead_center/features/stages/presentation/providers/providers.dart';
+import 'package:lead_center/features/stages/presentation/widgets/stage_card.dart';
 
 class StagesScreen extends StatelessWidget {
   const StagesScreen({super.key});
@@ -22,7 +24,9 @@ class StagesScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text('Nueva etapa'),
         icon: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          context.push('/stages/0');
+        },
       ),
     );
   }
@@ -61,9 +65,9 @@ class _StagesViewState extends ConsumerState {
       itemCount: stagesState.stages.length,
       itemBuilder: (context, index) {
         final stage = stagesState.stages[index];
-        return ListTile(
-          title: Text( stage.name ),
-          subtitle: Text( stage.stageCategory.name ),
+        return GestureDetector(
+          onTap: () => context.push('/stages/${stage.id}'),
+          child: StageCard(stage: stage),
         );
       },
     );

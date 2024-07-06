@@ -11,9 +11,6 @@ final leadsProvider = StateNotifierProvider<LeadsNotifier, LeadsState>((ref) {
   );
 });
 
-
-  
-
 class LeadsNotifier extends StateNotifier<LeadsState> {
   
   final LeadsRepository leadsRepository;
@@ -22,6 +19,32 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
     required this.leadsRepository
   }): super( LeadsState() ) {
     loadNextPage();
+  }
+
+  Future<bool> createOrUpdateLead( Map<String, dynamic> leadLike ) async {
+    
+    try {
+      final lead = await leadsRepository.createUpdateLead(leadLike);
+      final isLeadInList = state.leads.any((element) => element.id == lead.id );
+
+      if ( !isLeadInList ) {
+        state = state.copyWith(
+          leads: [...state.leads, lead]
+        );
+        return true;
+      }
+
+      state = state.copyWith(
+        leads: state.leads.map(
+          (element) => ( element.id == lead.id ) ? lead : element,  
+        ).toList()
+      );
+      return true;
+
+    } catch (e) {
+      return false;
+    }
+
   }
 
   Future loadNextPage() async {

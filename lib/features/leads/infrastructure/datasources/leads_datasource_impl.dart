@@ -20,9 +20,31 @@ class LeadsDatasourceImpl extends LeadsDatasource {
   );
 
   @override
-  Future<Lead> createUpdateLead(Map<String, dynamic> leadLike) {
-    // TODO: implement createUpdateLead
-    throw UnimplementedError();
+  Future<Lead> createUpdateLead(Map<String, dynamic> leadLike) async {
+    
+    try {
+      
+      final String? leadId = leadLike['id'];
+      final String method = (leadId == null) ? 'POST' : 'PATCH';
+      final String url = (leadId == null) ? '/leads' : '/leads/$leadId';
+
+      leadLike.remove('id');
+
+      final response = await dio.request(
+        url,
+        data: leadLike,
+        options: Options(
+          method: method
+        )
+      );
+
+      final lead = LeadMapper.leadJsonToEntity(response.data);
+      return lead;
+
+    } catch (e) {
+      throw Exception();
+    }
+
   }
 
   @override
@@ -39,7 +61,6 @@ class LeadsDatasourceImpl extends LeadsDatasource {
     } catch (e) {
       throw Exception();
     }
-
 
   }
 

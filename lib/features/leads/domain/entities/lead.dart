@@ -11,7 +11,7 @@ class Lead {
   String slug;
   Tag tag;
   Stage stage;
-  User user;
+  User? user;
 
   Lead({
     required this.id,
@@ -22,7 +22,7 @@ class Lead {
     required this.slug,
     required this.tag,
     required this.stage,
-    required this.user,
+    this.user,
   });
 
 }

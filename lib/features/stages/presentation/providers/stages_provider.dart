@@ -20,6 +20,32 @@ class StagesNotifier extends StateNotifier<StagesState> {
     loadNextPage();
   }
 
+  Future<bool> createOrUpdateStage( Map<String, dynamic> stageLike ) async {
+    
+    try {
+      final stage = await stagesRepository.createUpdateStage(stageLike);
+      final isStageInList = state.stages.any((element) => element.id == stage.id);
+
+      if ( !isStageInList ) {
+        state = state.copyWith(
+          stages: [...state.stages, stage]
+        );
+        return true;
+      }
+
+      state = state.copyWith(
+        stages: state.stages.map(
+          (element) => ( element.id == stage.id ) ? stage : element,
+        ).toList()
+      );
+      return true;
+
+    } catch (e) {
+      return false;
+    }
+
+  }
+
   Future loadNextPage() async {
     if ( state.isLoading || state.isLastPage ) return;
 
