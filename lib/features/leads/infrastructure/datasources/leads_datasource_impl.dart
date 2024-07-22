@@ -66,13 +66,21 @@ class LeadsDatasourceImpl extends LeadsDatasource {
 
   @override
   Future<List<Lead>> getLeadsByPage({int limit = 10, int offset = 0}) async {
-    final response = await dio.get<List>('/leads?limit=$limit&offset=$offset');
-    final List<Lead> leads = [];
-    for (final lead in response.data ?? []) {
-      leads.add( LeadMapper.leadJsonToEntity(lead) );
-    }
+    try {
+      final response = await dio.get<List>('/leads?limit=$limit&offset=$offset');
+      final List<Lead> leads = [];
+      for (final lead in response.data ?? []) {
+        leads.add( LeadMapper.leadJsonToEntity(lead) );
+      }
 
-    return leads;
+      return leads;
+    } on DioException catch (e){
+      if (e.response!.statusCode == 404 ) throw LeadNotFound();
+      throw Exception();
+      
+    } catch (e) {
+      throw Exception();
+    }
   }
 
   @override
@@ -80,6 +88,21 @@ class LeadsDatasourceImpl extends LeadsDatasource {
     // TODO: implement searchLeadByTerm
     throw UnimplementedError();
   }
+  
+  @override
+  Future<List<Lead>> searchLeads( String query) async {
+    final response = await dio.get<List>('/leads/search', 
+      queryParameters: {
+        'name': query
+      }
+    );
+    final List<Lead> leads = [];
+    for (final lead in response.data ?? []) {
+      leads.add( LeadMapper.leadJsonToEntity(lead) );
+    }
 
+    return leads;
+  }
+  
 }
 

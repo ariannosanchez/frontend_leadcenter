@@ -37,8 +37,8 @@ class LeadsCard extends StatelessWidget {
                 child: Row(
                   children: [
                     SizedBox(
-                      width: 60,
-                      height: 60,
+                      width: 50,
+                      height: 50,
                       child: CircleAvatar(
                         child: Text(lead.name[0], style: const TextStyle(color: Colors.black45, fontSize: 18)),
                       ),

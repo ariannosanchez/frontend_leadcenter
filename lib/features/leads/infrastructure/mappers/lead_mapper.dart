@@ -13,7 +13,6 @@ class LeadMapper {
     lastName: json['lastName'],
     email: json['email'],
     phone: json['phone'],
-    slug: json['slug'],
     tag: TagMapper.tagJsonToEntity( json['tag'] ),
     stage: StageMapper.stageJsonToEntity( json['stage'] ),
     user: UserMapper.userJsonToEntity( json['user'] ),

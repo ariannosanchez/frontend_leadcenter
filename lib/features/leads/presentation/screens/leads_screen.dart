@@ -1,15 +1,16 @@
   import 'package:flutter/material.dart';
   import 'package:flutter_riverpod/flutter_riverpod.dart';
   import 'package:go_router/go_router.dart';
+  import 'package:lead_center/features/leads/presentation/delegates/search_lead_delegate.dart';
   import 'package:lead_center/features/leads/presentation/providers/providers.dart';
   import 'package:lead_center/features/leads/presentation/widgets/widgets.dart';
   import 'package:lead_center/features/shared/shared.dart';
 
-  class LeadsScreen extends StatelessWidget {
+  class LeadsScreen extends ConsumerWidget {
     const LeadsScreen({super.key});
 
     @override
-    Widget build(BuildContext context) {
+    Widget build(BuildContext context, WidgetRef ref) {
       final scaffoldKey = GlobalKey<ScaffoldState>();
 
       return Scaffold(
@@ -17,7 +18,30 @@
         appBar: AppBar(
           title: const Text('Leads'), 
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search_rounded))
+            IconButton(onPressed: () {
+
+              final leadRepository = ref.read( leadsRepositoryProvider ); 
+
+              showSearch(
+                context: context,
+                delegate: SearchLeadDelegate(
+                  searchLeads: leadRepository.searchLeads
+                )
+              );
+            },
+            icon: const Icon(Icons.search_rounded)),
+            IconButton(onPressed: () {
+              // show modal button sheet
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return SizedBox(
+                    height: 400,
+                  );
+                }
+              );
+            },
+            icon: const Icon(Icons.filter_alt_outlined))
           ],
         ),
         body: const _LeadsView(),

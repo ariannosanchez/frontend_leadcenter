@@ -22,10 +22,18 @@ class LeadsRepositoryImpl extends LeadsRepository {
   Future<List<Lead>> getLeadsByPage({int limit = 10, int offset = 0}) {
     return datasource.getLeadsByPage( limit: limit, offset: offset );
   }
-
+  
   @override
   Future<List<Lead>> searchLeadByTerm(String term) {
-    return datasource.searchLeadByTerm(term);
+    // TODO: implement searchLeadByTerm
+    throw UnimplementedError();
   }
+  
+  @override
+  Future<List<Lead>> searchLeads(String query) {
+    return datasource.searchLeads( query );
+  }
+
+
 
 }

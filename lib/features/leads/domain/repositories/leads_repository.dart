@@ -10,4 +10,6 @@ abstract class LeadsRepository {
 
   Future<Lead> createUpdateLead( Map<String, dynamic> leadLike );
 
+  Future<List<Lead>> searchLeads( String query );
+
 }

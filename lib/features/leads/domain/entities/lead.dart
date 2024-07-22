@@ -8,7 +8,6 @@ class Lead {
   String lastName;
   String email;
   String phone;
-  String slug;
   Tag tag;
   Stage stage;
   User? user;
@@ -19,7 +18,6 @@ class Lead {
     required this.lastName,
     required this.email,
     required this.phone,
-    required this.slug,
     required this.tag,
     required this.stage,
     this.user,
