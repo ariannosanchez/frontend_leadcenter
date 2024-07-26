@@ -34,6 +34,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
 
 
     return NavigationDrawer(
+      elevation: 1,
       selectedIndex: navDrawerIndex,
       onDestinationSelected: (value) {
 
@@ -50,7 +51,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
       children: [
         Padding(
           padding: EdgeInsets.fromLTRB(0, hasNotch ? 0 : 20, 16, 0),
-          child:         ListTile(
+          child: ListTile(
             title: Text(  
               authState.user?.fullName ?? 'Usuario'
             ),
@@ -61,7 +62,6 @@ class SideMenuState extends ConsumerState<SideMenu> {
               radius: 40,
               child: Icon(
                 Icons.perm_identity,
-                color: Colors.white,
               ),
             ),
           ),

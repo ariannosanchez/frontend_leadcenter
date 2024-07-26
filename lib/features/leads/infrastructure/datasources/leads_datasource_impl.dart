@@ -84,6 +84,23 @@ class LeadsDatasourceImpl extends LeadsDatasource {
   }
 
   @override
+  Future<List<Lead>> getLeadsByFilter({int? stageId, int? tagId, int limit = 10, int offset = 0}) async {
+    try {
+      final response = await dio.get<List>('/leads/search?stageId=$stageId&tagId=$tagId&limit=10&offset=0');
+      final List<Lead> leads = [];
+      for (final lead in response.data ?? []) {
+        leads.add( LeadMapper.leadJsonToEntity(lead) );
+      }
+      return leads;
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 404 ) throw LeadNotFound();
+      throw Exception();
+    } catch (e) {
+      throw Exception();
+    }
+  }
+
+  @override
   Future<List<Lead>> searchLeadByTerm(String term) {
     // TODO: implement searchLeadByTerm
     throw UnimplementedError();

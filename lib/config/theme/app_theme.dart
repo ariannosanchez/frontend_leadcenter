@@ -12,21 +12,7 @@ class AppTheme {
   ThemeData getTheme() => ThemeData(
     ///* General
     useMaterial3: true,
-    colorSchemeSeed: Colors.blue,
-
-    ///* Texts
-    textTheme: TextTheme(
-      titleLarge: GoogleFonts.nunito()
-        .copyWith( fontSize: 40, fontWeight: FontWeight.bold ),
-      titleMedium: GoogleFonts.nunito()
-        .copyWith( fontSize: 30, fontWeight: FontWeight.bold ),
-      titleSmall: GoogleFonts.nunito()
-        .copyWith( fontSize: 20 )
-    ),
-
-    ///* Scaffold Background Color
-    scaffoldBackgroundColor: scaffoldBackgroundColor,
-    
+    colorSchemeSeed: const Color(0xFF2862F5),
 
     ///* Buttons
     filledButtonTheme: FilledButtonThemeData(
@@ -38,14 +24,12 @@ class AppTheme {
       )
     ),
 
-    ///* AppBar
-    appBarTheme: AppBarTheme(
-      centerTitle: true,
-      iconTheme: const IconThemeData( color: Colors.white ),
-      color: mainColor,
-      titleTextStyle: GoogleFonts.nunito()
-        .copyWith( fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white ),
-    )
+    // ///* AppBar
+    // appBarTheme: AppBarTheme(
+    //   centerTitle: true,
+    //   titleTextStyle: GoogleFonts.nunito()
+    //     .copyWith( fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black ),
+    // )
   );
 
 }
