@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lead_center/features/leads/presentation/delegates/search_lead_delegate.dart';
@@ -39,10 +36,10 @@ class LeadsScreen extends ConsumerWidget {
                 showModalBottomSheet(
                   context: context,
                   showDragHandle: true,
-                  builder: (context) => _BottomSheetView(),
+                  builder: (context) => const _BottomSheetView(),
                 );
               },
-              icon: const Icon(Icons.filter_list_outlined))
+              icon: const Icon(Icons.tune_outlined))
         ],
       ),
       body: const _LeadsView(),
@@ -65,179 +62,85 @@ class _BottomSheetView extends ConsumerStatefulWidget {
 }
 
 class _BottomSheetViewState extends ConsumerState {
-  int? selectedStageId;
-  int? selectedTagId;
-
   @override
   Widget build(BuildContext context) {
     final stageState = ref.watch(stagesProvider);
     final tagState = ref.watch(tagsProvider);
+    final selectedStageId = ref.watch(selectedStageProvider);
+    final selectedTagId = ref.watch(selectedTagProvider);
+
+    final textStyles = Theme.of(context).textTheme;
 
     return ListView(physics: const ClampingScrollPhysics(), children: [
+      Text('Filtros',
+          style: textStyles.titleMedium, textAlign: TextAlign.center),
       ExpansionTile(
-        title: const Text('Estado'),
-        subtitle: Text(selectedStageId != null ? stageState.stages.firstWhere((stage) => stage.id == selectedStageId).name : 'No seleccionado'),
+        title: Text(
+          'Estado',
+          style: textStyles.titleMedium,
+        ),
+        subtitle: Text(
+            selectedStageId != null
+                ? stageState.stages
+                    .firstWhere((stage) => stage.id == selectedStageId)
+                    .name
+                : 'Ninguno',
+            style: textStyles.bodySmall),
         children: stageState.stages.map((stage) {
           return RadioListTile<int>(
-            title: Text(stage.name),
+            title: Text(stage.name, style: textStyles.titleSmall),
+            controlAffinity: ListTileControlAffinity.trailing,
             value: stage.id,
             groupValue: selectedStageId,
             onChanged: (value) {
-              setState(() {
-                selectedStageId = value;
-                print( selectedStageId);
-              });
+              ref.read(selectedStageProvider.notifier).state = value;
             },
           );
         }).toList(),
       ),
-
       ExpansionTile(
-        title: const Text('Etiqueta'),
-        subtitle: Text(selectedTagId != null ? tagState.tags.firstWhere((tag) => tag.id == selectedTagId).name : 'No seleccionado'),
+        dense: true,
+        title: Text('Etiqueta', style: textStyles.titleMedium),
+        subtitle: Text(
+            selectedTagId != null
+                ? tagState.tags
+                    .firstWhere((tag) => tag.id == selectedTagId)
+                    .name
+                : 'Ninguno',
+            style: textStyles.bodySmall),
         children: tagState.tags.map((tag) {
           return RadioListTile<int>(
-            title: Text(tag.name),
+            title: Text(tag.name, style: textStyles.titleSmall),
+            controlAffinity: ListTileControlAffinity.trailing,
             value: tag.id,
             groupValue: selectedTagId,
             onChanged: (value) {
-              setState(() {
-                selectedTagId = value;
-                print( selectedTagId);
-              });
+              ref.read(selectedTagProvider.notifier).state = value;
             },
           );
         }).toList(),
+      ),
+      FilledButton(
+        onPressed: () {
+          ref
+              .read(leadsProvider.notifier)
+              .setFilters(stageId: selectedStageId, tagId: selectedTagId);
+          Navigator.of(context).pop();
+        },
+        child: const Text('Ver leads'),
+      ),
+      FilledButton(
+        onPressed: () {
+          ref.read(selectedStageProvider.notifier).state = null;
+          ref.read(selectedTagProvider.notifier).state = null;
+          ref.read(leadsProvider.notifier).clearFilters();
+          Navigator.of(context).pop();
+        },
+        child: const Text('Restablecer'),
       )
     ]);
   }
 }
-
-enum Transportation { car, plane, boat, submarine }
-
-class _bottomSheet extends State<_BottomSheetView> {
-  bool isDeveloper = true;
-  Transportation? selectedTransportation;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      physics: const ClampingScrollPhysics(),
-      children: [
-        SwitchListTile(
-            title: const Text('Developer Mode'),
-            subtitle: const Text('Controles adicionales'),
-            value: isDeveloper,
-            onChanged: (value) => setState(() {
-                  isDeveloper = !isDeveloper;
-                })),
-        ExpansionTile(
-          title: const Text('Estado'),
-          subtitle: Text('$selectedTransportation'),
-          children: [
-            RadioListTile(
-              title: const Text('Contactado'),
-              value: Transportation.car,
-              groupValue: selectedTransportation,
-              onChanged: (value) => setState(() {
-                selectedTransportation = Transportation.car;
-              }),
-            ),
-            RadioListTile(
-              title: const Text('En seguimiento'),
-              value: Transportation.boat,
-              groupValue: selectedTransportation,
-              onChanged: (value) => setState(() {
-                selectedTransportation = Transportation.boat;
-              }),
-            ),
-            RadioListTile(
-              title: const Text('Venta ganada'),
-              value: Transportation.plane,
-              groupValue: selectedTransportation,
-              onChanged: (value) => setState(() {
-                selectedTransportation = Transportation.plane;
-              }),
-            ),
-            RadioListTile(
-              title: const Text('Sin venta'),
-              value: Transportation.submarine,
-              groupValue: selectedTransportation,
-              onChanged: (value) => setState(() {
-                selectedTransportation = Transportation.submarine;
-              }),
-            ),
-          ],
-        ),
-        ExpansionTile(
-          title: const Text('Estado'),
-          subtitle: Text('$selectedTransportation'),
-          children: [
-            RadioListTile(
-              title: const Text('Contactado'),
-              value: Transportation.car,
-              groupValue: selectedTransportation,
-              onChanged: (value) => setState(() {
-                selectedTransportation = Transportation.car;
-              }),
-            ),
-            RadioListTile(
-              title: const Text('En seguimiento'),
-              value: Transportation.boat,
-              groupValue: selectedTransportation,
-              onChanged: (value) => setState(() {
-                selectedTransportation = Transportation.boat;
-              }),
-            ),
-            RadioListTile(
-              title: const Text('Venta ganada'),
-              value: Transportation.plane,
-              groupValue: selectedTransportation,
-              onChanged: (value) => setState(() {
-                selectedTransportation = Transportation.plane;
-              }),
-            ),
-            RadioListTile(
-              title: const Text('Sin venta'),
-              value: Transportation.submarine,
-              groupValue: selectedTransportation,
-              onChanged: (value) => setState(() {
-                selectedTransportation = Transportation.submarine;
-              }),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-// class ModalBottomSheetContent extends ConsumerWidget {
-//   const ModalBottomSheetContent({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final stagesState = ref.watch(stagesProvider);
-//     final tagsState = ref.watch(tagsProvider);
-
-//     return const SizedBox(
-//       height: 300,
-//       width: double.infinity,
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.start,
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           ExpansionTile(
-//             title: Text('Etapa del Lead'),
-//             subtitle: Text('Seleccionado'),
-//           ),
-
-//           ListView()
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class _LeadsView extends ConsumerStatefulWidget {
   const _LeadsView();

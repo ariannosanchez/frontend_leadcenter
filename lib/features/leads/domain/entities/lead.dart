@@ -8,6 +8,8 @@ class Lead {
   String lastName;
   String email;
   String phone;
+  DateTime createdAt;
+  DateTime updatedAd;
   Tag tag;
   Stage stage;
   User? user;
@@ -18,6 +20,8 @@ class Lead {
     required this.lastName,
     required this.email,
     required this.phone,
+    required this.createdAt,
+    required this.updatedAd,
     required this.tag,
     required this.stage,
     this.user,

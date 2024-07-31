@@ -27,7 +27,7 @@ class LeadsCard extends StatelessWidget {
               leading: CircleAvatar(
                 child: Text( lead.name[0], style: textStyles.bodyMedium, ),
               ),
-              trailing: Text( '24/07/2024', style: textStyles.bodySmall, ),
+              trailing: Text( lead.createdAt.toString(), style: textStyles.bodySmall, ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,

@@ -28,6 +28,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
 
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
     final textStyles = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
 
     //Obtener el estado del authProvider
     final authState = ref.watch(authProvider);
@@ -75,13 +76,13 @@ class SideMenuState extends ConsumerState<SideMenu> {
         ...appMenuItems
           .sublist(0,3)
           .map((item) => NavigationDrawerDestination(
-            icon: Icon( item.icon ), 
+            icon: Icon( item.icon, color: colors.primary ), 
             label: Text( item.title ),
           ),
         ),
 
         const Padding(
-          padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
+          padding: EdgeInsets.fromLTRB(28, 16, 28, 10), 
           child: Divider(),
         ),
 
@@ -93,7 +94,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
         ...appMenuItems
           .sublist(3)
           .map((item) => NavigationDrawerDestination(
-            icon: Icon( item.icon ), 
+            icon: Icon( item.icon, color: colors.primary ), 
             label: Text( item.title ),
           ),
         ),

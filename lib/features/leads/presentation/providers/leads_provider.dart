@@ -11,6 +11,9 @@ final leadsProvider = StateNotifierProvider<LeadsNotifier, LeadsState>((ref) {
   );
 });
 
+final selectedStageProvider = StateProvider<int?>((ref) => null);
+final selectedTagProvider = StateProvider<int?>((ref) => null);
+
 class LeadsNotifier extends StateNotifier<LeadsState> {
   
   final LeadsRepository leadsRepository;
@@ -47,6 +50,28 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
 
   }
 
+  void setFilters({int? stageId, int? tagId}) {
+    state = state.copyWith(
+      selectedStageId: stageId,
+      selectedTagId: tagId,
+      offset: 0,
+      leads: [],
+      isLastPage: false,
+    );
+    loadNextPage();
+  }
+
+  void clearFilters() {
+    state = state.copyWith(
+      selectedStageId: 0,
+      selectedTagId: 0,
+      offset: 0,
+      leads: [],
+      isLastPage: false,
+    );
+    loadNextPage();
+  }
+
   Future loadNextPage() async {
 
     if ( state.isLoading || state.isLastPage ) return;
@@ -54,7 +79,12 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
     state = state.copyWith( isLoading: true );
 
     final leads = await leadsRepository
-      .getLeadsByPage( limit: state.limit, offset: state.offset );
+      .getLeadsByFilter( 
+        limit: state.limit,
+        offset: state.offset,
+        stageId: state.selectedStageId,
+        tagId: state.selectedTagId, 
+      );
 
     if ( leads.isEmpty ) {
       state = state.copyWith(
@@ -80,6 +110,8 @@ class LeadsState {
   final int offset;
   final bool isLoading;
   final List<Lead> leads;
+  final int selectedStageId;
+  final int selectedTagId;
 
   LeadsState({  
     this.isLastPage = false,
@@ -87,6 +119,8 @@ class LeadsState {
     this.offset = 0,
     this.isLoading = false,
     this.leads = const[],
+    this.selectedStageId = 0,
+    this.selectedTagId = 0,
   });
 
   LeadsState copyWith({
@@ -95,11 +129,15 @@ class LeadsState {
     int? offset,
     bool? isLoading,
     List<Lead>? leads,
+    int ? selectedStageId,
+    int ? selectedTagId,
   }) => LeadsState(
     isLastPage :  isLastPage ?? this. isLastPage,
     limit : limit ?? this.limit,
     offset : offset ?? this.offset,
     isLoading :  isLoading ?? this. isLoading,
     leads: leads ?? this.leads,
+    selectedStageId: selectedStageId ?? this.selectedStageId,
+    selectedTagId: selectedTagId ?? this.selectedTagId,
   );
 }

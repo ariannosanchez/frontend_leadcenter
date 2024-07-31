@@ -34,7 +34,9 @@ class LeadNotifier extends StateNotifier<LeadState> {
       name: '', 
       lastName: '', 
       email: '', 
-      phone: '', 
+      phone: '',
+      createdAt: DateTime.now(),
+      updatedAd: DateTime.now(),
       tag: Tag(id: 0, name: '', tagCategory: TagCategory(id: 0, name: '')),
       stage: Stage(id: 0, name: '', stageCategory: StageCategory(id: 0, name: '')),
     );
