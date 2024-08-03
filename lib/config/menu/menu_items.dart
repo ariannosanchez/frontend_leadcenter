@@ -51,5 +51,12 @@ const appMenuItems = <MenuItem>[
     icon: Icons.settings
   ),
 
+  MenuItem(
+    title: 'Embudo',
+    subTitle: 'Embudo de ventas',
+    link: '/funnel',
+    icon: Icons.bar_chart_outlined
+  )
+
 ];
 

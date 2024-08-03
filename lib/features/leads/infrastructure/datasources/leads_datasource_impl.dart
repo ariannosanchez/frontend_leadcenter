@@ -115,7 +115,7 @@ class LeadsDatasourceImpl extends LeadsDatasource {
   @override
   Future<List<Lead>> searchLeads( String query) async {
     final response = await dio.get<List>('/leads/search', 
-      queryParameters: {
+      queryParameters: { 
         'name': query
       }
     );

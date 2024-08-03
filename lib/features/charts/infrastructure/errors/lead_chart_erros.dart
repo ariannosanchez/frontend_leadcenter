@@ -1,0 +1,3 @@
+class LeadChartNotFound implements Exception {
+
+}

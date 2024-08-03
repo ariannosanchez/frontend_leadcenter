@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lead_center/config/router/app_router_notifier.dart';
 import 'package:lead_center/features/auth/auth.dart';
 import 'package:lead_center/features/auth/presentation/providers/auth_provider.dart';
+import 'package:lead_center/features/charts/presentation/screens/screens.dart';
 import 'package:lead_center/features/leads/leads.dart';
 import 'package:lead_center/features/stage_categories/presentation/screens/screens.dart';
 import 'package:lead_center/features/stages/presentation/screens/screens.dart';
@@ -88,6 +89,11 @@ final goRouterProvider = Provider((ref) {
           stageId: int.parse(state.params['id'] ?? '0'),
         ),
       ),
+
+      GoRoute(
+        path: '/funnel',
+        builder: (context, state) => const LeadsChartScreen(),
+      )
     ],
 
     redirect: (context, state) {

@@ -76,7 +76,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
         ...appMenuItems
           .sublist(0,3)
           .map((item) => NavigationDrawerDestination(
-            icon: Icon( item.icon, color: colors.primary ), 
+            icon: Icon( item.icon ), 
             label: Text( item.title ),
           ),
         ),
@@ -92,11 +92,34 @@ class SideMenuState extends ConsumerState<SideMenu> {
         ),
 
         ...appMenuItems
-          .sublist(3)
+          .sublist(3,5)
           .map((item) => NavigationDrawerDestination(
-            icon: Icon( item.icon, color: colors.primary ), 
+            icon: Icon( item.icon ), 
             label: Text( item.title ),
           ),
+        ),
+
+        const Padding(
+          padding: EdgeInsets.fromLTRB(28, 16, 28, 10), 
+          child: Divider(),
+        ),
+        
+        const Padding(
+          padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
+          child: Text('Reportes'),
+        ),
+
+        ...appMenuItems
+          .sublist(5)
+          .map((item) => NavigationDrawerDestination(
+            icon: Icon( item.icon ), 
+            label: Text( item.title ),
+          ),
+        ),
+
+        const Padding(
+          padding: EdgeInsets.fromLTRB(28, 16, 28, 10), 
+          child: Divider(),
         ),
 
         Padding(
