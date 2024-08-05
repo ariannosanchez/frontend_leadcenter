@@ -13,6 +13,8 @@ final leadsProvider = StateNotifierProvider<LeadsNotifier, LeadsState>((ref) {
 
 final selectedStageProvider = StateProvider<int?>((ref) => null);
 final selectedTagProvider = StateProvider<int?>((ref) => null);
+final selectedStartDate = StateProvider((ref) => null); 
+final selectedEndDate = StateProvider((ref) => null); 
 
 class LeadsNotifier extends StateNotifier<LeadsState> {
   
@@ -50,10 +52,12 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
 
   }
 
-  void setFilters({int? stageId, int? tagId}) {
+  void setFilters({ String? startDate, String? endDate, int? stageId, int? tagId}) {
     state = state.copyWith(
       selectedStageId: stageId,
       selectedTagId: tagId,
+      selectedStartDate: startDate,
+      selectedEndDate: endDate,
       offset: 0,
       leads: [],
       isLastPage: false,
@@ -83,7 +87,10 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
         limit: state.limit,
         offset: state.offset,
         stageId: state.selectedStageId,
-        tagId: state.selectedTagId, 
+        tagId: state.selectedTagId,
+        startDate: state.selectedStartDate,
+        endDate: state.selectedEndDate,
+
       );
 
     if ( leads.isEmpty ) {
@@ -112,6 +119,8 @@ class LeadsState {
   final List<Lead> leads;
   final int selectedStageId;
   final int selectedTagId;
+  final String selectedStartDate;
+  final String selectedEndDate;
 
   LeadsState({  
     this.isLastPage = false,
@@ -121,6 +130,8 @@ class LeadsState {
     this.leads = const[],
     this.selectedStageId = 0,
     this.selectedTagId = 0,
+    this.selectedEndDate = '',
+    this.selectedStartDate = '',
   });
 
   LeadsState copyWith({
@@ -131,6 +142,8 @@ class LeadsState {
     List<Lead>? leads,
     int ? selectedStageId,
     int ? selectedTagId,
+    String ? selectedStartDate,
+    String ? selectedEndDate,
   }) => LeadsState(
     isLastPage :  isLastPage ?? this. isLastPage,
     limit : limit ?? this.limit,
@@ -139,5 +152,7 @@ class LeadsState {
     leads: leads ?? this.leads,
     selectedStageId: selectedStageId ?? this.selectedStageId,
     selectedTagId: selectedTagId ?? this.selectedTagId,
+    selectedStartDate: selectedStartDate ?? this.selectedStartDate,
+    selectedEndDate: selectedEndDate ?? this.selectedEndDate
   );
 }

@@ -62,6 +62,9 @@ class _BottomSheetView extends ConsumerStatefulWidget {
 }
 
 class _BottomSheetViewState extends ConsumerState {
+
+  DateTimeRange? selectedDateRange;
+
   @override
   Widget build(BuildContext context) {
     final stageState = ref.watch(stagesProvider);
@@ -71,9 +74,28 @@ class _BottomSheetViewState extends ConsumerState {
 
     final textStyles = Theme.of(context).textTheme;
 
+    final DateTime _firstDate = DateTime(DateTime.now().year - 2);
+    final DateTime _lastDate = DateTime(DateTime.now().year + 1);
+
     return ListView(physics: const ClampingScrollPhysics(), children: [
       Text('Filtros',
           style: textStyles.titleMedium, textAlign: TextAlign.center),
+      TextButton( 
+        onPressed: () async {
+          final DateTimeRange? picked = await showDateRangePicker(
+            context: context,
+            firstDate: _firstDate,
+            lastDate: _lastDate,
+          );
+
+          if ( picked != null ) {
+            setState(() {
+              selectedDateRange = picked; 
+            });
+          }
+        },
+        child: const Text('Show date picker')
+      ),
       ExpansionTile(
         title: Text(
           'Estado',
@@ -122,9 +144,13 @@ class _BottomSheetViewState extends ConsumerState {
       ),
       FilledButton(
         onPressed: () {
-          ref
-              .read(leadsProvider.notifier)
-              .setFilters(stageId: selectedStageId, tagId: selectedTagId);
+          ref.read(leadsProvider.notifier).setFilters(
+            stageId: selectedStageId,
+            tagId: selectedTagId,
+            startDate: selectedDateRange?.start.toIso8601String(),
+            endDate: selectedDateRange?.end.toIso8601String()
+          );
+          print(selectedDateRange);
           Navigator.of(context).pop();
         },
         child: const Text('Ver leads'),

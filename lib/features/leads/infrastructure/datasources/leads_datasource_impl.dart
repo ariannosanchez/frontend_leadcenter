@@ -84,10 +84,12 @@ class LeadsDatasourceImpl extends LeadsDatasource {
   }
 
   @override
-  Future<List<Lead>> getLeadsByFilter({int? stageId, int? tagId, int limit = 10, int offset = 0}) async {
+  Future<List<Lead>> getLeadsByFilter({ String? startDate, String? endDate, int? stageId, int? tagId, int limit = 10, int offset = 0}) async {
     try {
 
       String url = '/leads/search?limit=$limit&offset=$offset';
+      if ( startDate != '' ) url += '&startDate=$startDate';
+      if ( endDate != '' ) url += '&endDate=$endDate';
       if ( stageId != 0  ) url += '&stageId=$stageId';
       if ( tagId != 0 ) url += '&tagId=$tagId';
 

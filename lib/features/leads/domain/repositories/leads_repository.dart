@@ -13,6 +13,6 @@ abstract class LeadsRepository {
 
   Future<List<Lead>> searchLeads( String query );
 
-  Future<List<Lead>> getLeadsByFilter({ int? stageId, int? tagId, int limit = 10, int offset = 0 });
+  Future<List<Lead>> getLeadsByFilter({ String? startDate, String? endDate, int? stageId, int? tagId, int limit = 10, int offset = 0 });
 
 }

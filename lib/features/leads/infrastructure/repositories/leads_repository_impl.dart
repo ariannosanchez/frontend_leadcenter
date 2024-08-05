@@ -35,8 +35,8 @@ class LeadsRepositoryImpl extends LeadsRepository {
   }
   
   @override
-  Future<List<Lead>> getLeadsByFilter({int? stageId, int? tagId, int limit = 10, int offset = 0}) {
-    return datasource.getLeadsByFilter( stageId: stageId, tagId: tagId, limit: limit, offset: offset );
+  Future<List<Lead>> getLeadsByFilter({ String? startDate, String? endDate, int? stageId, int? tagId, int limit = 10, int offset = 0}) {
+    return datasource.getLeadsByFilter( startDate: startDate, endDate: endDate, stageId: stageId, tagId: tagId, limit: limit, offset: offset );
   }
 
 }
