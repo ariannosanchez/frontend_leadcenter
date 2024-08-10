@@ -82,6 +82,7 @@ class _BottomSheetViewState extends ConsumerState {
           style: textStyles.titleMedium, textAlign: TextAlign.center),
       TextButton( 
         onPressed: () async {
+          
           final DateTimeRange? picked = await showDateRangePicker(
             context: context,
             firstDate: _firstDate,

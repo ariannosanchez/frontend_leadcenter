@@ -27,12 +27,9 @@ class SideMenuState extends ConsumerState<SideMenu> {
   Widget build(BuildContext context) {
 
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
-    final textStyles = Theme.of(context).textTheme;
-    final colors = Theme.of(context).colorScheme;
 
     //Obtener el estado del authProvider
     final authState = ref.watch(authProvider);
-
 
     return NavigationDrawer(
       elevation: 1,
@@ -51,7 +48,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
       
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(0, hasNotch ? 0 : 20, 16, 0),
+          padding: EdgeInsets.fromLTRB(0, hasNotch ? 0 : 20, 16, 10),
           child: ListTile(
             title: Text(  
               authState.user?.fullName ?? 'Usuario'
@@ -67,12 +64,6 @@ class SideMenuState extends ConsumerState<SideMenu> {
             ),
           ),
         ),
-
-        const Padding(
-          padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
-          child: Divider(),
-        ),
-
         ...appMenuItems
           .sublist(0,3)
           .map((item) => NavigationDrawerDestination(
@@ -87,7 +78,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
         ),
 
         const Padding(
-          padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
+          padding: EdgeInsets.fromLTRB(28, 5, 16, 5),
           child: Text('Ajustes'),
         ),
 
@@ -105,12 +96,12 @@ class SideMenuState extends ConsumerState<SideMenu> {
         ),
         
         const Padding(
-          padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
+          padding: EdgeInsets.fromLTRB(28, 5, 16, 5),
           child: Text('Reportes'),
         ),
 
         ...appMenuItems
-          .sublist(5)
+          .sublist(5,6)
           .map((item) => NavigationDrawerDestination(
             icon: Icon( item.icon ), 
             label: Text( item.title ),
@@ -120,6 +111,19 @@ class SideMenuState extends ConsumerState<SideMenu> {
         const Padding(
           padding: EdgeInsets.fromLTRB(28, 16, 28, 10), 
           child: Divider(),
+        ),
+
+        const Padding(
+          padding: EdgeInsets.fromLTRB(28, 5, 16, 5),
+          child: Text('Tema'),
+        ),
+
+        ...appMenuItems
+          .sublist(6,7)
+          .map((item) => NavigationDrawerDestination(
+            icon: Icon( item.icon ), 
+            label: Text( item.title ),
+          ),
         ),
 
         Padding(

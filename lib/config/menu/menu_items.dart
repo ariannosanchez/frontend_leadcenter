@@ -56,6 +56,13 @@ const appMenuItems = <MenuItem>[
     subTitle: 'Embudo de ventas',
     link: '/funnel',
     icon: Icons.bar_chart_outlined
+  ),
+
+  MenuItem(
+    title: 'Cambiar tema', 
+    subTitle: 'Cambiar tema de la aplicación', 
+    link: '/theme-changer', 
+    icon: Icons.color_lens_outlined
   )
 
 ];

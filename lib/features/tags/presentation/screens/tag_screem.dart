@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lead_center/features/shared/shared.dart';
-import 'package:lead_center/features/shared/widgets/custom_field.dart';
 import 'package:lead_center/features/tag_categories/presentation/providers/providers.dart';
 import 'package:lead_center/features/tags/domain/domain.dart';
 import 'package:lead_center/features/tags/presentation/providers/providers.dart';
@@ -15,7 +14,7 @@ class TagScreen extends ConsumerWidget {
   void showSnackbar( BuildContext context ) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Etiqueta Actualizada'))
+      const SnackBar(content: Text('Etiqueta actualizada'))
     );
   } 
 
@@ -28,7 +27,7 @@ class TagScreen extends ConsumerWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Editar tag'),
+          title: const Text('Editar etiqueta'),
         ),
       
         body: tagState.isLoading
@@ -102,21 +101,15 @@ class _TagInformation extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('GENERALES', style: TextStyle( fontSize: 15, fontWeight: FontWeight.bold ) ),
-          const Text('Ingresa la información correspondiente', style: TextStyle( fontSize: 15, fontWeight: FontWeight.normal ) ),
-
-          const SizedBox(height: 15 ),
           
-          CustomField( 
+          CustomAppField( 
             label: 'Nombre',
             initialValue: tagForm.name.value,
             onChanged: ref.read( tagFormProvider(tag).notifier).onNameChanged,
             errorMessage: tagForm.name.errorMessage,
           ),
 
-          const SizedBox(height: 15 ),
-
-          CustomDropdownButtonField(
+          CustomAppDropdownButton(
             label: 'Categoría',
             value: tagForm.tagCategory.value,
             items: tagCategories.tagCategories.map(
@@ -129,7 +122,6 @@ class _TagInformation extends ConsumerWidget {
             errorMessage: tagForm.tagCategory.errorMessage,
           ),
 
-          const SizedBox(height: 100 ),
         ],
       ),
     );

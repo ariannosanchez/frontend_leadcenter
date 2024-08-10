@@ -9,6 +9,7 @@ import 'package:lead_center/features/stage_categories/presentation/screens/scree
 import 'package:lead_center/features/stages/presentation/screens/screens.dart';
 import 'package:lead_center/features/tag_categories/presentation/screens/screens.dart';
 import 'package:lead_center/features/tags/presentation/screens/screens.dart';
+import 'package:lead_center/features/theme_changer/screens/screens.dart';
 
 final goRouterProvider = Provider((ref) {
 
@@ -93,7 +94,13 @@ final goRouterProvider = Provider((ref) {
       GoRoute(
         path: '/funnel',
         builder: (context, state) => const LeadsChartScreen(),
+      ),
+
+      GoRoute(
+        path: '/theme-changer',
+        builder: (context, state) => const ThemeChangerScreen(),
       )
+      
     ],
 
     redirect: (context, state) {

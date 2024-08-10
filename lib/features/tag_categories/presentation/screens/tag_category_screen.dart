@@ -13,7 +13,7 @@ class TagCategoryScreen extends ConsumerWidget {
   void showSnackbar( BuildContext context ) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Categoría Actualizada') )
+      const SnackBar(content: Text('Categoría actualizada') )
     );
   }
 
@@ -67,18 +67,7 @@ class _TagCategoryView extends ConsumerWidget {
 
     return ListView(
       children: [
-    
-          const SizedBox( height: 10 ),
-          Center(
-            child: Text(
-              tagCategoryForm.name.value,
-              style: textStyles.titleSmall,
-              textAlign: TextAlign.center, 
-            )
-          ),
-          const SizedBox( height: 10 ), 
           _TagCategoryInformation( tagCategory: tagCategory ),
-          
         ],
     );
   }
@@ -99,16 +88,12 @@ class _TagCategoryInformation extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Generales'),
-          const SizedBox(height: 15 ),
-          CustomTagField( 
+          CustomAppField( 
             label: 'Nombre',
             initialValue: tagCategoryForm.name.value,
             onChanged: ref.read( tagCategoryFormProvider(tagCategory).notifier).onNameChanged,
             errorMessage: tagCategoryForm.name.errorMessage,
           ),
-
-          const SizedBox(height: 100 ),
         ],
       ),
     );
