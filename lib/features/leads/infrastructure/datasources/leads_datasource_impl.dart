@@ -84,7 +84,13 @@ class LeadsDatasourceImpl extends LeadsDatasource {
   }
 
   @override
-  Future<List<Lead>> getLeadsByFilter({ String? startDate, String? endDate, int? stageId, int? tagId, int limit = 10, int offset = 0}) async {
+  Future<List<Lead>> getLeadsByFilter({ 
+      String? startDate,
+      String? endDate,
+      int? stageId,
+      int? tagId,
+      int limit = 10,
+      int offset = 0}) async {
     try {
 
       String url = '/leads/search?limit=$limit&offset=$offset';
@@ -127,6 +133,23 @@ class LeadsDatasourceImpl extends LeadsDatasource {
     }
 
     return leads;
+  }
+  
+  @override
+  Future<List<Lead>> getLeadsByStage(int stageId) async {
+    try {
+      final response = await dio.get('/leads/stage/$stageId');
+      final List<Lead> leads = [];
+      for (final lead in response.data ?? []) {
+        leads.add( LeadMapper.leadJsonToEntity(lead) );
+      }
+      return leads;
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 404 ) throw LeadNotFound();
+      throw Exception();
+    } catch (e) {
+      throw Exception();
+    }
   }
   
 }

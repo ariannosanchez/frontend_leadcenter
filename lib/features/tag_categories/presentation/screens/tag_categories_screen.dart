@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lead_center/features/shared/shared.dart';
 import 'package:lead_center/features/tag_categories/presentation/providers/providers.dart';
 import 'package:lead_center/features/tag_categories/presentation/widgets/widgets.dart';
 
@@ -10,10 +9,7 @@ class TagCategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaffoldKey = GlobalKey<ScaffoldState>();
-
     return Scaffold(
-      drawer: SideMenu(scaffoldKey: scaffoldKey),
       appBar: AppBar(
         title: const Text('Categorias de etiqueta'),
       ),

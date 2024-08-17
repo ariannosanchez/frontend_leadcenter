@@ -83,13 +83,17 @@ class _LeadView extends ConsumerWidget {
           height: 150,
           width: 600,
           child: CircleAvatar(
-            child: Text( lead.name[0], style: textStyles.displayLarge ),
+            child: Text(
+              lead.name.isNotEmpty ? lead.name[0] : '?',
+              style: textStyles.displayLarge 
+            ),
           ),
         ),
         const SizedBox( height: 10 ),
         Center(
           child: Text(
-            '${leadForm.name.value} ${leadForm.lastName.value}', 
+            '${leadForm.name.value.isNotEmpty ? leadForm.name.value : 'Nuevo'} '
+            '${leadForm.lastName.value.isNotEmpty ? leadForm.lastName.value : 'Lead'}', 
             style: textStyles.titleMedium,
             textAlign: TextAlign.center,
           ),

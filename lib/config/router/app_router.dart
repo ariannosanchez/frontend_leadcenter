@@ -99,6 +99,13 @@ final goRouterProvider = Provider((ref) {
       GoRoute(
         path: '/theme-changer',
         builder: (context, state) => const ThemeChangerScreen(),
+      ),
+
+      GoRoute(
+        path: '/leads_stage/:id',
+        builder: (context, state) => LeadsStageScreen(
+          stageId: int.parse(state.params['id'] ?? '0'),
+        ),
       )
       
     ],

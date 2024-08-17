@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lead_center/features/shared/shared.dart';
 import 'package:lead_center/features/stage_categories/presentation/providers/providers.dart';
 
 class StageCategoriesScreen extends StatelessWidget {
   const StageCategoriesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final scaffoldKey = GlobalKey<ScaffoldState>();
-    
+  Widget build(BuildContext context) {    
     return Scaffold(
-      drawer: SideMenu(scaffoldKey: scaffoldKey),
       appBar: AppBar(
         title: const Text('Categorias de etapas'),
       ),

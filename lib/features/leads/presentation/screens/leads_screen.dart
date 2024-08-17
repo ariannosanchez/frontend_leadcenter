@@ -14,12 +14,12 @@ class LeadsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    final titleStyle = Theme.of(context).textTheme.titleMedium;
 
     return Scaffold(
       drawer: SideMenu(scaffoldKey: scaffoldKey),
+      bottomNavigationBar: const CustomBottomNavigation(),
       appBar: AppBar(
-        title: Text('Leads', style: titleStyle),
+        title: const Text('Leads'),
         actions: [
           IconButton(
               onPressed: () {
@@ -77,7 +77,9 @@ class _BottomSheetViewState extends ConsumerState {
     final DateTime _firstDate = DateTime(DateTime.now().year - 2);
     final DateTime _lastDate = DateTime(DateTime.now().year + 1);
 
-    return ListView(physics: const ClampingScrollPhysics(), children: [
+    return ListView(
+      physics: const ClampingScrollPhysics(),
+      children: [
       Text('Filtros',
           style: textStyles.titleMedium, textAlign: TextAlign.center),
       TextButton( 
@@ -201,16 +203,22 @@ class _LeadsViewState extends ConsumerState {
   Widget build(BuildContext context) {
     final leadsState = ref.watch(leadsProvider);
 
-    return ListView.builder(
-      controller: scrollController,
-      padding: const EdgeInsets.all(5),
-      itemCount: leadsState.leads.length,
-      itemBuilder: (context, index) {
-        final lead = leadsState.leads[index];
-        return GestureDetector(
-            onTap: () => context.push('/lead/${lead.id}'),
-            child: LeadsCard(lead: lead));
-      },
+    return RefreshIndicator(
+      onRefresh: () { 
+        return ref.refresh(leadsProvider.notifier).loadNextPage();
+       },
+      child: ListView.builder(
+        controller: scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(5),
+        itemCount: leadsState.leads.length,
+        itemBuilder: (context, index) {
+          final lead = leadsState.leads[index];
+          return GestureDetector(
+              onTap: () => context.push('/lead/${lead.id}'),
+              child: LeadsCard(lead: lead));
+        },
+      ),
     );
   }
 }

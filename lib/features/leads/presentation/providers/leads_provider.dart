@@ -90,7 +90,6 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
         tagId: state.selectedTagId,
         startDate: state.selectedStartDate,
         endDate: state.selectedEndDate,
-
       );
 
     if ( leads.isEmpty ) {

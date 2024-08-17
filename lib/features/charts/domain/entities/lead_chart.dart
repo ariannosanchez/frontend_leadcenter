@@ -1,5 +1,7 @@
+import 'package:lead_center/features/stages/domain/domain.dart';
+
 class LeadChart {
-  final String stage;
+  final Stage stage;
   final int count;
 
   LeadChart({
