@@ -14,7 +14,7 @@ class LeadMapper {
     email: json['email'],
     phone: json['phone'],
     createdAt: DateTime.parse(json['createdAt']),
-    updatedAd: DateTime.parse(json['updatedAd']),
+    updatedAt: DateTime.parse(json['updatedAt']),
     tag: TagMapper.tagJsonToEntity( json['tag'] ),
     stage: StageMapper.stageJsonToEntity( json['stage'] ),
     user: UserMapper.userJsonToEntity( json['user'] ),

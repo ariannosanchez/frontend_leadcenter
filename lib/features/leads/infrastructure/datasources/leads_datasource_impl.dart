@@ -93,18 +93,27 @@ class LeadsDatasourceImpl extends LeadsDatasource {
       int offset = 0}) async {
     try {
 
-      String url = '/leads/search?limit=$limit&offset=$offset';
-      if ( startDate != '' ) url += '&startDate=$startDate';
-      if ( endDate != '' ) url += '&endDate=$endDate';
-      if ( stageId != 0  ) url += '&stageId=$stageId';
-      if ( tagId != 0 ) url += '&tagId=$tagId';
+      // String url = '/leads/search?limit=$limit&offset=$offset';
+      // if ( startDate != '' ) url += '&startDate=$startDate';
+      // if ( endDate != '' ) url += '&endDate=$endDate';
+      // if ( stageId != 0  ) url += '&stageId=$stageId';
+      // if ( tagId != 0 ) url += '&tagId=$tagId';
 
-      final response = await dio.get<List>(url);
+      final response = await dio.get<List>('/leads/search',
+        queryParameters: {
+          'limit': limit,
+          'offset': offset,
+          if (tagId != null) 'tagId': tagId,
+          if (stageId != null) 'stageId': stageId,
+          if (startDate != null) 'startDate': startDate,
+          if (endDate != null) 'endDate': endDate
+        }
+      );
       final List<Lead> leads = [];
       for (final lead in response.data ?? []) {
         leads.add( LeadMapper.leadJsonToEntity(lead) );
       }
-      print(url);
+      print(response);
       return leads;
     } on DioException catch (e) {
       if (e.response!.statusCode == 404 ) throw LeadNotFound();

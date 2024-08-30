@@ -23,9 +23,8 @@ class LeadsStageScreen extends ConsumerWidget {
         ),
         body: leadsStageState.isLoading
             ? const FullScreenLoader()
-            : _LeadsStageView(leads: leadsStageState.leads)
+            : _LeadsStageView(leads: leadsStageState.leads),
       ),
-      
     );
   }
 }

@@ -48,8 +48,8 @@ class LeadFormNotifier extends StateNotifier<LeadFormState> {
       'lastName': state.lastName.value,
       'email': state.email.value,
       'phone': state.phone.value,
-      'tag': state.tag.value,
-      'stage': state.stage.value
+      'tagId': state.tag.value,
+      'stageId': state.stage.value
     };
 
     try {

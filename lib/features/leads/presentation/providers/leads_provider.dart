@@ -11,11 +11,6 @@ final leadsProvider = StateNotifierProvider<LeadsNotifier, LeadsState>((ref) {
   );
 });
 
-final selectedStageProvider = StateProvider<int?>((ref) => null);
-final selectedTagProvider = StateProvider<int?>((ref) => null);
-final selectedStartDate = StateProvider((ref) => null); 
-final selectedEndDate = StateProvider((ref) => null); 
-
 class LeadsNotifier extends StateNotifier<LeadsState> {
   
   final LeadsRepository leadsRepository;
@@ -52,30 +47,6 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
 
   }
 
-  void setFilters({ String? startDate, String? endDate, int? stageId, int? tagId}) {
-    state = state.copyWith(
-      selectedStageId: stageId,
-      selectedTagId: tagId,
-      selectedStartDate: startDate,
-      selectedEndDate: endDate,
-      offset: 0,
-      leads: [],
-      isLastPage: false,
-    );
-    loadNextPage();
-  }
-
-  void clearFilters() {
-    state = state.copyWith(
-      selectedStageId: 0,
-      selectedTagId: 0,
-      offset: 0,
-      leads: [],
-      isLastPage: false,
-    );
-    loadNextPage();
-  }
-
   Future loadNextPage() async {
 
     if ( state.isLoading || state.isLastPage ) return;
@@ -86,10 +57,10 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
       .getLeadsByFilter( 
         limit: state.limit,
         offset: state.offset,
-        stageId: state.selectedStageId,
-        tagId: state.selectedTagId,
-        startDate: state.selectedStartDate,
-        endDate: state.selectedEndDate,
+        stageId: state.stageId,
+        tagId: state.tagId,
+        startDate: state.startDate?.toIso8601String(),
+        endDate: state.endDate?.toIso8601String(),
       );
 
     if ( leads.isEmpty ) {
@@ -106,8 +77,34 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
       offset: state.offset + 10,
       leads: [ ...state.leads, ...leads ] 
     );
-
   }
+
+  Future<void> applyFilters({
+    int? stageId,
+    int? tagId,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    state = state.copyWith(
+      stageId: stageId,
+      tagId: tagId,
+      startDate: startDate,
+      endDate: endDate,
+      offset: 0,
+      leads: [],
+    );
+    await loadNextPage();
+  }
+
+  Future<void> refreshLeads() async {
+    state = state.copyWith(
+      offset: 0,
+      leads: [],
+      isLastPage: false
+    );
+    await loadNextPage();
+  }
+
 }
 
 class LeadsState {
@@ -116,21 +113,21 @@ class LeadsState {
   final int offset;
   final bool isLoading;
   final List<Lead> leads;
-  final int selectedStageId;
-  final int selectedTagId;
-  final String selectedStartDate;
-  final String selectedEndDate;
+  final int? stageId;
+  final int? tagId;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
   LeadsState({  
     this.isLastPage = false,
     this.limit = 10,
-    this.offset = 0,
+    this.offset = 0, 
     this.isLoading = false,
     this.leads = const[],
-    this.selectedStageId = 0,
-    this.selectedTagId = 0,
-    this.selectedEndDate = '',
-    this.selectedStartDate = '',
+    this.stageId,
+    this.tagId,
+    this.startDate,
+    this.endDate,
   });
 
   LeadsState copyWith({
@@ -139,19 +136,72 @@ class LeadsState {
     int? offset,
     bool? isLoading,
     List<Lead>? leads,
-    int ? selectedStageId,
-    int ? selectedTagId,
-    String ? selectedStartDate,
-    String ? selectedEndDate,
+    int? stageId,
+    int? tagId,
+    DateTime? startDate,
+    DateTime? endDate,
   }) => LeadsState(
     isLastPage :  isLastPage ?? this. isLastPage,
     limit : limit ?? this.limit,
     offset : offset ?? this.offset,
     isLoading :  isLoading ?? this. isLoading,
     leads: leads ?? this.leads,
-    selectedStageId: selectedStageId ?? this.selectedStageId,
-    selectedTagId: selectedTagId ?? this.selectedTagId,
-    selectedStartDate: selectedStartDate ?? this.selectedStartDate,
-    selectedEndDate: selectedEndDate ?? this.selectedEndDate
+    stageId: stageId ?? this.stageId,
+    tagId: tagId ?? this.tagId,
+    startDate: startDate ?? this.startDate,
+    endDate: endDate ?? this.endDate,
   );
 }
+
+  //! Metodos antiguos para los filtros de leads
+  // void setFilters({ String? startDate, String? endDate, int? stageId, int? tagId}) {
+  //   state = state.copyWith(
+  //     selectedStageId: stageId,
+  //     selectedTagId: tagId,
+  //     selectedStartDate: startDate,
+  //     selectedEndDate: endDate,
+  //     offset: 0,
+  //     leads: [],
+  //     isLastPage: false,
+  //   );
+  //   loadNextPage();
+  // }
+
+  // void clearFilters() {
+  //   state = state.copyWith(
+  //     selectedStageId: 0,
+  //     selectedTagId: 0,
+  //     offset: 0,
+  //     leads: [],
+  //     isLastPage: false,
+  //   );
+  //   loadNextPage();
+  // }
+  //! Función que retorna la lista de leads
+  // Future loadNextPage() async {
+
+  //   if ( state.isLoading || state.isLastPage ) return;
+
+  //   state = state.copyWith( isLoading: true );
+
+  //   final leads = await leadsRepository
+  //     .getLeadsByFilter( 
+  //       limit: state.limit,
+  //       offset: state.offset,
+  //     );
+
+  //   if ( leads.isEmpty ) {
+  //     state = state.copyWith(
+  //       isLoading: false,
+  //       isLastPage: true,
+  //     );
+  //     return;
+  //   }
+
+  //   state = state.copyWith(
+  //     isLastPage: false,
+  //     isLoading: false,
+  //     offset: state.offset + 10,
+  //     leads: [ ...state.leads, ...leads ] 
+  //   );
+  // }

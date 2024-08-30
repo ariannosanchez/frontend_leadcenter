@@ -9,7 +9,7 @@ class Lead {
   String email;
   String phone;
   DateTime createdAt;
-  DateTime updatedAd;
+  DateTime updatedAt;
   Tag tag;
   Stage stage;
   User? user;
@@ -21,7 +21,7 @@ class Lead {
     required this.email,
     required this.phone,
     required this.createdAt,
-    required this.updatedAd,
+    required this.updatedAt,
     required this.tag,
     required this.stage,
     this.user,
