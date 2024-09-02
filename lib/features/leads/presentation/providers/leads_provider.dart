@@ -92,15 +92,29 @@ class LeadsNotifier extends StateNotifier<LeadsState> {
       endDate: endDate,
       offset: 0,
       leads: [],
+      isLastPage: false,
     );
     await loadNextPage();
+  }
+
+  void clearFilters() {
+    state = state.copyWith(
+      stageId: null,
+      tagId: null,
+      startDate: null,
+      endDate: null,
+      offset: 0,
+      leads: [],
+      isLastPage: false,
+    );
   }
 
   Future<void> refreshLeads() async {
     state = state.copyWith(
       offset: 0,
       leads: [],
-      isLastPage: false
+      isLastPage: false,
+      //! Luego aqui agregar los filtos que se quieren aplicar
     );
     await loadNextPage();
   }

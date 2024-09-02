@@ -1,115 +1,109 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lead_center/features/stages/presentation/providers/providers.dart';
-import 'package:lead_center/features/tags/presentation/providers/providers.dart';
-class LeadsFiltersWidget extends ConsumerWidget {
+import 'package:lead_center/features/leads/presentation/providers/providers.dart';
+import 'package:lead_center/features/leads/presentation/widgets/widgets.dart';
+
+class LeadsFiltersWidget extends ConsumerStatefulWidget {
   const LeadsFiltersWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _LeadsFiltersWidgetState createState() => _LeadsFiltersWidgetState();
+}
 
+class _LeadsFiltersWidgetState extends ConsumerState<LeadsFiltersWidget> {
+  String? _startDate;
+  String? _endDate;
+  int? _selectedStage;
+  int? _selectedTag;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final leadsState = ref.read(leadsProvider);
+    _selectedStage = leadsState.stageId;
+    _selectedTag = leadsState.tagId;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final textStyles = Theme.of(context).textTheme;
-
-    final stageState = ref.watch( stagesProvider );
-    final tagState = ref.watch( tagsProvider );
 
     return Column(
       children: [
-        // !Header
         Text(
           'Filtros',
           style: textStyles.titleMedium,
         ),
         const Divider(),
 
-        //Body
-        const Expanded(
+        Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                 Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  child: CustomDatePickerButton(), // Aquí se inserta el botón de selección de fecha
+                  child: CustomDatePickerButton(),
                 ),
-                ExpansionTile(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide.none,
-                  ),
-                  title: Text('Etiquetas'),
-                  children: [
-                    
-                  ]
+                StageFilter(
+                  selectedStage: _selectedStage, 
+                  onStageSelected: (value) {
+                    setState(() {
+                      _selectedStage = value;
+                    });
+                  }
                 ),
-
-                ExpansionTile(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide.none,
-                  ),
-                  title: Text('Etapas'),
-                  children: [
-
-                  ],
-                ),
-              
+                TagFilter(
+                  selectedTag: _selectedTag, 
+                  onTagSelected: (value) {
+                    setState(() {
+                      _selectedTag = value;
+                    });
+                  }
+                )
               ],
             ),
-          )
+          ),
         ),
 
         const Divider(),
-        // !Footer
         Container(
           padding: const EdgeInsets.all(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Acción para mostrar leads con filtros
+                  ref.read(leadsProvider.notifier).applyFilters(
+                    stageId: _selectedStage,
+                    tagId: _selectedTag,
+                  );
+                  Navigator.pop(context);
+                },
                 child: const Text('Mostrar leads'),
               ),
-              TextButton(onPressed: () {}, child: const Text('Limpiar filtros'))
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedStage = null;
+                    _selectedTag = null;
+                  });
+                  ref.read(leadsProvider.notifier).clearFilters();
+                  Navigator.pop(context);
+                },
+                child: const Text('Limpiar filtros'),
+              ),
             ],
           ),
-        )
+        ),
       ],
     );
-  }
-}
-
-class CustomDatePickerButton extends StatelessWidget {
-  const CustomDatePickerButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return OutlinedButton(
-      style: OutlinedButton.styleFrom( // Borde del botón
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      onPressed: () {
-        _selectDate(context);
-      },
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.calendar_today_outlined),
-          SizedBox(width: 8),
-          Text('Show date picker'),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (selected != null) {
-      // Maneja la fecha seleccionada
-    }
   }
 }

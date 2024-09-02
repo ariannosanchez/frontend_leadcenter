@@ -75,6 +75,26 @@ class _LeadsViewState extends ConsumerState {
   Widget build(BuildContext context) {
     final leadsState = ref.watch(leadsProvider);
 
+    if (leadsState.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (leadsState.leads.isEmpty) {
+      final colors = Theme.of(context).colorScheme;
+      final textStyles = Theme.of(context).textTheme;
+      return Center( 
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon( Icons.flash_off_outlined, size: 50, color: colors.primary ),
+            Text('Ohhh no!!', style: textStyles.bodyLarge!.copyWith( color: colors.primary )),
+            Text('No hay leads para mostrar', style: textStyles.bodyMedium),
+          ],
+        )
+      );
+    }
+
     return RefreshIndicator(
       onRefresh: () { 
         return ref.refresh(leadsProvider.notifier).refreshLeads();
@@ -90,7 +110,7 @@ class _LeadsViewState extends ConsumerState {
               onTap: () => context.push('/lead/${lead.id}'),
               child: LeadsCard(lead: lead));
         },
-      ),
+      ),  
     );
   }
 }
